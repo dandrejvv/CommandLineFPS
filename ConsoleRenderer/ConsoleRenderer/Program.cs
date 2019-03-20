@@ -22,27 +22,27 @@ namespace ConsoleRenderer
                     var pressedKey = Console.ReadKey(true);
                     if (pressedKey.Key == ConsoleKey.W)
                     {
-                        camera.MoveForward(Speed, frameTimer.ElapsedTime.Milliseconds/1000.0f);
+                        camera.MoveForward(Speed, frameTimer.FrameTime / 1000.0f);
                     }
                     else if (pressedKey.Key == ConsoleKey.S)
                     {
-                        camera.MoveBackward(Speed, frameTimer.ElapsedTime.Milliseconds / 1000.0f);
+                        camera.MoveBackward(Speed, frameTimer.FrameTime / 1000.0f);
                     }
 
                     if (pressedKey.Key == ConsoleKey.LeftArrow)
                     {
-                        camera.TurnLeft(Speed, frameTimer.ElapsedTime.Milliseconds / 1000.0f);
+                        camera.TurnLeft(Speed, frameTimer.FrameTime / 1000.0f);
                     }
                     else if (pressedKey.Key == ConsoleKey.RightArrow)
                     {
-                        camera.TurnRight(Speed, frameTimer.ElapsedTime.Milliseconds / 1000.0f);
+                        camera.TurnRight(Speed, frameTimer.FrameTime / 1000.0f);
                     }
                 }
 
                 camera.Draw();
 
                 charMap.DrawMap(screen, 1, 1, camera.GetCameraPosition());
-                screen.Draw(1, 17, $"FPS: {frameTimer.FramesPerSecond().ToString("0.00")}");
+                screen.Draw(1, 17, $"FPS: {frameTimer.Fps.ToString("0.00")}");
                 screen.RenderToScreen();
             }
             

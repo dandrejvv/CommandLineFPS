@@ -6,24 +6,31 @@ namespace ConsoleRenderer
     {
         private DateTime _fromTime;
         private DateTime _toTime;
+        private long _millisecondsPassed;
+        private float _prevFps;
+        private long _frameTime;
 
         public FrameTimer()
         {
             _fromTime = DateTime.Now;
         }
 
-        public TimeSpan ElapsedTime { get; private set; }
+        public long FrameTime { get { return _frameTime; } }
+        public float Fps { get { return _prevFps; } }
 
         public void Update()
         {
-            _toTime = DateTime.Now;
-            ElapsedTime = _toTime - _fromTime;
-            _fromTime = _toTime;
-        }
+            if (_millisecondsPassed >= 1000)
+            {
+                _prevFps = (1.0f / FrameTime) * 1000.0f;
+                _millisecondsPassed = 0;
+            }
 
-        public float FramesPerSecond()
-        {
-            return (1.0f / ElapsedTime.Milliseconds) * 1000.0f;
+            _toTime = DateTime.Now;
+            var elapsed = _toTime - _fromTime;
+            _frameTime = elapsed.Milliseconds;
+            _fromTime = _toTime;
+            _millisecondsPassed += FrameTime;
         }
     }
 }
