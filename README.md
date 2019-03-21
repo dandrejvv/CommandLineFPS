@@ -13,7 +13,7 @@ since the .NET Core Console was using the Win32API calls underneath and was work
 Then it finally dawned upon me that perhaps there is a marshalling concern that is happening between .NET Core and
 the Win32API. I used the current Encoder on the Console to get the byte version of my character array and BOOM it worked!
 Except that I got the almost exact frame rate than the original effort I put in using the normal .NET Core Console 😔.
-Also, there is a bit of a flicker happening as well.
+Also, there is a bit of a flicker happening as well. I've reverted to using my original renderer that won't flicker if you want to try it out but it is "configurable" when you look through the code and un/comment some lines.
 
 This was an interesting experiment and something I quite enjoyed persuing, especially to take my mind off my normal programming
 routine. I felt almost like I was a university or high school student again. So big thanks to OneLineCoder for the idea!
