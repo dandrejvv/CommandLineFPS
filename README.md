@@ -16,7 +16,7 @@ Except that I got the almost exact frame rate than the original effort I put in 
 Also, there is a bit of a flicker happening as well.
 
 This was an interesting experiment and something I quite enjoyed persuing, especially to take my mind off my normal programming
-routing. I felt almost like I was a university or high school student again. So big thanks to OneLineCoder for the idea!
+routine. I felt almost like I was a university or high school student again. So big thanks to OneLineCoder for the idea!
 Maybe I might tinker on it some more but I can't promise anything.
 
 ![Screenshot](Screenshot.png)
