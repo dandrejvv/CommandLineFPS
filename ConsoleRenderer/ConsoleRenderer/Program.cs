@@ -6,7 +6,8 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
-            var screen = new Screen(120, 40);
+            //var screen = new NativeWindowsScreen(120, 40);
+            var screen = new DefaultScreen(120, 40);
             var charMap = new CharMap("Map1.txt");
             var camera = new Camera(screen, charMap);
             var frameTimer = new FrameTimer();

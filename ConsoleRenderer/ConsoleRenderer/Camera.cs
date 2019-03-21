@@ -6,7 +6,7 @@ namespace ConsoleRenderer
 {
     public class Camera
     {
-        private readonly Screen _screen;
+        private readonly IScreen _screen;
         private readonly CharMap _charMap;
 
         const float Default_FOV = MathF.PI / 4.0f;  // Field of View
@@ -16,7 +16,7 @@ namespace ConsoleRenderer
         private float _cameraY;
         private float _cameraAngle;
 
-        public Camera(Screen screen, CharMap charMap)
+        public Camera(IScreen screen, CharMap charMap)
         {
             _screen = screen;
             _charMap = charMap;
@@ -122,10 +122,10 @@ namespace ConsoleRenderer
                 int nFloor = _screen.ScreenHeight - nCeiling;
 
                 char shadeChar = ' ';
-                if (distanceToWall <= Default_Depth / 4.0f) shadeChar = (char)Int16.Parse("2588", NumberStyles.AllowHexSpecifier);
-                else if (distanceToWall < Default_Depth / 3.0f) shadeChar = (char)Int16.Parse("2593", NumberStyles.AllowHexSpecifier);
-                else if (distanceToWall < Default_Depth / 2.0f) shadeChar = (char)Int16.Parse("2592", NumberStyles.AllowHexSpecifier);
-                else if (distanceToWall < Default_Depth) shadeChar = (char)Int16.Parse("2591", NumberStyles.AllowHexSpecifier);
+                if (distanceToWall <= Default_Depth / 4.0f) shadeChar = (char)0x2588;
+                else if (distanceToWall < Default_Depth / 3.0f) shadeChar = (char)0x2593;
+                else if (distanceToWall < Default_Depth / 2.0f) shadeChar = (char)0x2592;
+                else if (distanceToWall < Default_Depth) shadeChar = (char)0x2591;
                 else shadeChar = ' ';
 
                 if (boundary) shadeChar = ' ';

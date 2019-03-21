@@ -2,14 +2,14 @@
 
 namespace ConsoleRenderer
 {
-    public class Screen
+    public class DefaultScreen : IScreen
     {
         private char[] _buffer;
         private char[] _emptyBuffer;
         private int _screenWidth;
         private int _screenHeight;
 
-        public Screen(int screenWidth, int screenHeight)
+        public DefaultScreen(int screenWidth, int screenHeight)
         {
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
@@ -20,8 +20,8 @@ namespace ConsoleRenderer
             Console.SetWindowSize(ScreenWidth, ScreenHeight+1);
         }
 
-        public int ScreenWidth { get { return _screenWidth; } set { _screenWidth = value; } }
-        public int ScreenHeight { get { return _screenHeight; } set { _screenHeight = value; } }
+        public int ScreenWidth { get { return _screenWidth; } private set { _screenWidth = value; } }
+        public int ScreenHeight { get { return _screenHeight; } private set { _screenHeight = value; } }
 
         public void Draw(int x, int y, char character)
         {

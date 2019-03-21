@@ -19,8 +19,8 @@ namespace ConsoleRenderer
         }
 
         public string MapFilePath { get; }
-        public int Width { get { return _width; } set { _width = value; } }
-        public int Height { get { return _height; } set { _height = value; } }
+        public int Width { get { return _width; } private set { _width = value; } }
+        public int Height { get { return _height; } private set { _height = value; } }
         public PositionInt2D PlayerStartingPosition { get; private set; }
 
         public char GetAtPos(int posX, int posY)
@@ -28,7 +28,7 @@ namespace ConsoleRenderer
             return _map[posY * _width + posX];
         }
 
-        public void DrawMap(Screen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
+        public void DrawMap(IScreen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
         {
             for (var row = 0; row < _height; row++)
             {
