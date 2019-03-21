@@ -12,11 +12,11 @@ namespace ConsoleRenderer
 
         [DllImport(KERNEL32, SetLastError = true)]
         static extern bool WriteConsoleOutputCharacter(
-          IntPtr hConsoleOutput,
-          char[] lpCharacter,
-          int nLength,
-          COORD dwWriteCoord,
-          ref int lpumberOfCharsWritten);
+            IntPtr hConsoleOutput,
+            char[] lpCharacter,
+            int nLength,
+            COORD dwWriteCoord,
+            out int lpumberOfCharsWritten);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct COORD
@@ -77,7 +77,7 @@ namespace ConsoleRenderer
         public void RenderToScreen()
         {
             int writtenChars = 0;
-            if(!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0 , 0), ref writtenChars))
+            if (!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0 , 0), out writtenChars))
             {
                 var error = Marshal.GetLastWin32Error();
             }

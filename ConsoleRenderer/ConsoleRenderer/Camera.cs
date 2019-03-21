@@ -64,9 +64,16 @@ namespace ConsoleRenderer
 
         public void Draw()
         {
-            for (var x = 0; x < _screen.ScreenWidth; x++)
+            float charMapWidth = _charMap.Width;
+            float charMapHeight = _charMap.Height;
+            float screenWidth = _screen.ScreenWidth;
+            float screenHeight = _screen.ScreenHeight;
+            int screenHeightInt = _screen.ScreenHeight;
+            int screenWidthInt = _screen.ScreenWidth;
+
+            for (var x = 0; x < screenWidthInt; x++)
             {
-                float rayAngle = (_cameraAngle - Default_FOV / 2.0f) + ((float)x / (float)_screen.ScreenWidth) * Default_FOV;
+                float rayAngle = (_cameraAngle - Default_FOV / 2.0f) + (x / screenWidth) * Default_FOV;
                 
                 const float StepSize = 0.1f;
                 float distanceToWall = 0.0f;
@@ -83,7 +90,7 @@ namespace ConsoleRenderer
                     int testX = (int)(_cameraX + eyeX * distanceToWall);
                     int testY = (int)(_cameraY + eyeY * distanceToWall);
 
-                    if (testX < 0 || testX >= _charMap.Width || testY < 0 || testY >= _charMap.Height)
+                    if (testX < 0.0f || testX >= charMapWidth || testY < 0.0f || testY >= charMapHeight)
                     {
                         hitWall = true;
                         distanceToWall = Default_Depth;
@@ -118,8 +125,8 @@ namespace ConsoleRenderer
                     }
                 }
 
-                int nCeiling = (int)((float)(_screen.ScreenHeight / 2.0) - _screen.ScreenHeight / ((float)distanceToWall));
-                int nFloor = _screen.ScreenHeight - nCeiling;
+                int nCeiling = (int)(screenHeight / 2.0f - screenHeight / distanceToWall);
+                int nFloor = screenHeightInt - nCeiling;
 
                 char shadeChar = ' ';
                 if (distanceToWall <= Default_Depth / 4.0f) shadeChar = (char)0x2588;
@@ -130,7 +137,7 @@ namespace ConsoleRenderer
 
                 if (boundary) shadeChar = ' ';
 
-                for (int y = 0; y < _screen.ScreenHeight; y++)
+                for (int y = 0; y < screenHeightInt; y++)
                 {
                     if (y <= nCeiling)
                         _screen.Draw(x, y, ' ');
@@ -138,11 +145,11 @@ namespace ConsoleRenderer
                         _screen.Draw(x, y, shadeChar);
                     else 
                     {
-                        float b = 1.0f - (((float)y - _screen.ScreenHeight / 2.0f) / ((float)_screen.ScreenHeight / 2.0f));
-                        if (b < 0.25) shadeChar = '#';
-                        else if (b < 0.5) shadeChar = 'x';
-                        else if (b < 0.75) shadeChar = '.';
-                        else if (b < 0.9) shadeChar = '-';
+                        float b = 1.0f - ((y - screenHeight / 2.0f) / (screenHeight / 2.0f));
+                        if (b < 0.25f) shadeChar = '#';
+                        else if (b < 0.5f) shadeChar = 'x';
+                        else if (b < 0.75f) shadeChar = '.';
+                        else if (b < 0.9f) shadeChar = '-';
                         else shadeChar = ' ';
                         _screen.Draw(x, y, shadeChar);
                     }
