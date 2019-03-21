@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace ConsoleRenderer
 {
@@ -11,12 +9,12 @@ namespace ConsoleRenderer
         const String KERNEL32 = "kernel32.dll";
 
         [DllImport(KERNEL32, SetLastError = true)]
-        static extern bool WriteConsoleOutputCharacter(
+        static extern bool WriteConsole(
             IntPtr hConsoleOutput,
-            char[] lpCharacter,
+            byte[] lpCharacter,
             int nLength,
-            COORD dwWriteCoord,
-            out int lpumberOfCharsWritten);
+            out int lpumberOfCharsWritten,
+            IntPtr lpReserved);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct COORD
@@ -77,9 +75,15 @@ namespace ConsoleRenderer
         public void RenderToScreen()
         {
             int writtenChars = 0;
-            // Just can't seem to get the necessary characters to get drawn! :-(
-            // However there is a much higher fps than the default one (and potentially this one will allow me to draw in colors)
-            if (!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0 , 0), out writtenChars))
+            // Finally figured out why my wall characters didn't get drawn the right way. Has to do with the Unicode
+            // characters that are not being properly marshaled between .NET and the Windows Native console.
+            // This is the main reason why it renders so slow using the normal Console. There goes my performance! :-(
+            var bufferBytes = Console.OutputEncoding.GetBytes(_buffer);
+
+            // Once the byte version of the text is obtained (in the correct format for unicode characters)
+            // we can pass it through as-is to the underlying Windows function.
+            // There is a weird top-line flicker happening for some reason.
+            if (!WriteConsole(_consoleHandle, bufferBytes, _buffer.Length, out writtenChars, IntPtr.Zero))
             {
                 var error = Marshal.GetLastWin32Error();
             }
