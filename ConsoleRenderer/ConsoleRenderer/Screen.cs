@@ -6,6 +6,8 @@ namespace ConsoleRenderer
     {
         private char[] _buffer;
         private char[] _emptyBuffer;
+        private int _screenWidth;
+        private int _screenHeight;
 
         public Screen(int screenWidth, int screenHeight)
         {
@@ -18,17 +20,17 @@ namespace ConsoleRenderer
             Console.SetWindowSize(ScreenWidth, ScreenHeight+1);
         }
 
-        public int ScreenWidth { get; }
-        public int ScreenHeight { get; }
+        public int ScreenWidth { get { return _screenWidth; } set { _screenWidth = value; } }
+        public int ScreenHeight { get { return _screenHeight; } set { _screenHeight = value; } }
 
         public void Draw(int x, int y, char character)
         {
-            _buffer[y * ScreenWidth + x] = character;
+            _buffer[y * _screenWidth + x] = character;
         }
 
         public void Draw(int x, int y, string text)
         {
-            text.CopyTo(0, _buffer, y * ScreenWidth + x, text.Length);
+            text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);
         }
 
         public void RenderToScreen()

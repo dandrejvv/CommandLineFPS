@@ -8,6 +8,8 @@ namespace ConsoleRenderer
     public class CharMap
     {
         private char[] _map;
+        private int _width;
+        private int _height;
 
         public CharMap(string mapFilePath)
         {
@@ -17,20 +19,20 @@ namespace ConsoleRenderer
         }
 
         public string MapFilePath { get; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public int Width { get { return _width; } set { _width = value; } }
+        public int Height { get { return _height; } set { _height = value; } }
         public PositionInt2D PlayerStartingPosition { get; private set; }
 
         public char GetAtPos(int posX, int posY)
         {
-            return _map[posY * Width + posX];
+            return _map[posY * _width + posX];
         }
 
         public void DrawMap(Screen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
         {
-            for (var row = 0; row < Height; row++)
+            for (var row = 0; row < _height; row++)
             {
-                var line = new String(_map, row * Width, Width);
+                var line = new String(_map, row * _width, Width);
                 screen.Draw(posX, posY + row, line);
             }
             screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY, 'P');
