@@ -35,7 +35,7 @@ namespace ConsoleRenderer
                 var line = new String(_map, row * _width, Width);
                 screen.Draw(posX, posY + row, line);
             }
-            screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY+1, 'P');
+            screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY + 1, 'P');
         }
 
         private void LoadMap(string mapFilePath)

@@ -77,6 +77,8 @@ namespace ConsoleRenderer
         public void RenderToScreen()
         {
             int writtenChars = 0;
+            // Just can't seem to get the necessary characters to get drawn! :-(
+            // However there is a much higher fps than the default one (and potentially this one will allow me to draw in colors)
             if (!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0 , 0), out writtenChars))
             {
                 var error = Marshal.GetLastWin32Error();

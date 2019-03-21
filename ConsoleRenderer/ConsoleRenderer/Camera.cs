@@ -62,6 +62,8 @@ namespace ConsoleRenderer
             _cameraAngle += (amount * 0.75f) * frameElapsed;
         }
 
+        // This should not be in here. The Camera should actually control viewer
+        // movement, while a separate engine-like component do all the rendering
         public void Draw()
         {
             float charMapWidth = _charMap.Width;
@@ -140,10 +142,14 @@ namespace ConsoleRenderer
                 for (int y = 0; y < screenHeightInt; y++)
                 {
                     if (y <= nCeiling)
+                    {
                         _screen.Draw(x, y, ' ');
+                    }
                     else if (y > nCeiling && y <= nFloor)
+                    {
                         _screen.Draw(x, y, shadeChar);
-                    else 
+                    }
+                    else
                     {
                         float b = 1.0f - ((y - screenHeight / 2.0f) / (screenHeight / 2.0f));
                         if (b < 0.25f) shadeChar = '#';
@@ -151,6 +157,7 @@ namespace ConsoleRenderer
                         else if (b < 0.75f) shadeChar = '.';
                         else if (b < 0.9f) shadeChar = '-';
                         else shadeChar = ' ';
+
                         _screen.Draw(x, y, shadeChar);
                     }
                 }
