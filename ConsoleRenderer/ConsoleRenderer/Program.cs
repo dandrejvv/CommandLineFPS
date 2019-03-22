@@ -7,6 +7,7 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
+            // Biggest size is (180, 60)
             //var screen = new NativeWindowsScreen(120, 40);
             var screen = new DefaultScreen(120, 40);
             var charMap = new CharMap("Map1.txt");
@@ -25,20 +26,20 @@ namespace ConsoleRenderer
                     var pressedKey = Console.ReadKey(true);
                     if (pressedKey.Key == ConsoleKey.W)
                     {
-                        camera.MoveForward(Speed, frameTimer.FrameTime / 1000.0f);
+                        camera.MoveForward(Speed, frameTimer.FrameTime);
                     }
                     else if (pressedKey.Key == ConsoleKey.S)
                     {
-                        camera.MoveBackward(Speed, frameTimer.FrameTime / 1000.0f);
+                        camera.MoveBackward(Speed, frameTimer.FrameTime);
                     }
 
                     if (pressedKey.Key == ConsoleKey.LeftArrow)
                     {
-                        camera.TurnLeft(Speed, frameTimer.FrameTime / 1000.0f);
+                        camera.TurnLeft(Speed, frameTimer.FrameTime);
                     }
                     else if (pressedKey.Key == ConsoleKey.RightArrow)
                     {
-                        camera.TurnRight(Speed, frameTimer.FrameTime / 1000.0f);
+                        camera.TurnRight(Speed, frameTimer.FrameTime);
                     }
                 }
 
