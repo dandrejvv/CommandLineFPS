@@ -31,7 +31,7 @@ namespace ConsoleRenderer
             return _map[posY * _width + posX];
         }
 
-        public void DrawMap(IScreen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
+        public void DrawMap(IConsoleScreen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
         {
             for (var row = 0; row < _height; row++)
             {

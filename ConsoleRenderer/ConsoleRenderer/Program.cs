@@ -3,14 +3,15 @@ using System;
 
 namespace ConsoleRenderer
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
             //var screen = new NativeWindowsScreen(120, 40);
             var screen = new DefaultScreen(120, 40);
             var charMap = new CharMap("Map1.txt");
-            var camera = new Camera(screen, charMap);
+            var camera = new Camera(charMap);
+            var mapRenderer = new MapRenderer(screen, camera, charMap);
             var frameTimer = new FrameTimer();
 
             const float Speed = 5.0f;
@@ -41,13 +42,12 @@ namespace ConsoleRenderer
                     }
                 }
 
-                camera.Draw();
+                mapRenderer.Draw();
 
                 charMap.DrawMap(screen, 1, 1, camera.GetCameraPosition());
                 screen.Draw(1, 17, $"FPS: {frameTimer.Fps.ToString("0.00")}");
-                screen.RenderToScreen();
+                screen.RenderToConsole();
             }
-            
         }
     }
 }

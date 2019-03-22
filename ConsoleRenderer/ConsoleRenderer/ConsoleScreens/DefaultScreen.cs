@@ -2,7 +2,7 @@ using System;
 
 namespace ConsoleRenderer.ConsoleScreens
 {
-    public class DefaultScreen : IScreen
+    public class DefaultScreen : IConsoleScreen
     {
         private char[] _buffer;
         private char[] _emptyBuffer;
@@ -38,7 +38,7 @@ namespace ConsoleRenderer.ConsoleScreens
             text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);
         }
 
-        public void RenderToScreen()
+        public void RenderToConsole()
         {
             Console.SetCursorPosition(0, 0);
             Console.Write(_buffer, 0, _buffer.Length);

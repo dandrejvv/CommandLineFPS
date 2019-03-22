@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace ConsoleRenderer.ConsoleScreens
 {
-    public class NativeWindowsScreen : IScreen
+    public class NativeWindowsScreen : IConsoleScreen
     {
         const String KERNEL32 = "kernel32.dll";
 
@@ -77,7 +77,7 @@ namespace ConsoleRenderer.ConsoleScreens
             text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);
         }
 
-        public void RenderToScreen()
+        public void RenderToConsole()
         {
             int writtenChars = 0;
             // Finally figured out why my wall characters didn't get drawn the right way. Has to do with the Unicode
