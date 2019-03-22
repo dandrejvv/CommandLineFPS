@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ConsoleRenderer.ConsoleScreens
 {
@@ -9,12 +10,12 @@ namespace ConsoleRenderer.ConsoleScreens
         const String KERNEL32 = "kernel32.dll";
 
         [DllImport(KERNEL32, SetLastError = true)]
-        static extern bool WriteConsole(
+        static extern bool WriteConsoleOutputCharacter(
             IntPtr hConsoleOutput,
-            byte[] lpCharacter,
-            int nLength,
-            out int lpumberOfCharsWritten,
-            IntPtr lpReserved);
+            byte[] lpCharacter, 
+            int nLength, 
+            COORD dwWriteCoord,
+            out int lpNumberOfCharsWritten);
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct COORD
@@ -28,8 +29,8 @@ namespace ConsoleRenderer.ConsoleScreens
             internal short Y;
         }
 
-        private char[] _buffer;
-        private char[] _emptyBuffer;
+        private byte[] _buffer;
+        private byte[] _emptyBuffer;
         private int _screenWidth;
         private int _screenHeight;
         private readonly IntPtr _consoleHandle;
@@ -38,9 +39,8 @@ namespace ConsoleRenderer.ConsoleScreens
         {
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
-            _buffer = new char[ScreenWidth * ScreenHeight];
-            _emptyBuffer = new char[ScreenWidth * ScreenHeight];
-
+            _buffer = new byte[ScreenWidth * ScreenHeight];
+            _emptyBuffer = new byte[ScreenWidth * ScreenHeight];
 
             Console.CursorVisible = false;
             Console.SetWindowSize(ScreenWidth, ScreenHeight + 1);
@@ -64,31 +64,50 @@ namespace ConsoleRenderer.ConsoleScreens
 
         public void Draw(int x, int y, char character)
         {
-            _buffer[y * _screenWidth + x] = character;
+            switch (character)
+            {
+                default:
+                    _buffer[y * _screenWidth + x] = (byte)character;
+                    break;
+                case (char)0x2588:
+                    _buffer[y * _screenWidth + x] = 219;
+                    break;
+                case (char)0x2593:
+                    _buffer[y * _screenWidth + x] = 178;
+                    break;
+                case (char)0x2592:
+                    _buffer[y * _screenWidth + x] = 177;
+                    break;
+                case (char)0x2591:
+                    _buffer[y * _screenWidth + x] = 176;
+                    break;
+            }
         }
 
         public void Draw(int x, int y, char[] chars, int offset, int length)
         {
-            Array.Copy(chars, offset, _buffer, y * _screenWidth + x, length);
+            for (int i = 0; i < length; i ++)
+            {
+                _buffer[y * _screenWidth + x + i] = (byte)chars[i + offset];
+            }
         }
 
         public void Draw(int x, int y, string text)
         {
-            text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);
+            for (int i = 0; i < text.Length; i++)
+            {
+                _buffer[y * _screenWidth + x + i] = (byte)text[i];
+            }
         }
 
         public void RenderToConsole()
         {
             int writtenChars = 0;
-            // Finally figured out why my wall characters didn't get drawn the right way. Has to do with the Unicode
-            // characters that are not being properly marshaled between .NET and the Windows Native console.
-            // This is the main reason why it renders so slow using the normal Console. There goes my performance! :-(
-            var bufferBytes = Console.OutputEncoding.GetBytes(_buffer);
 
-            // Once the byte version of the text is obtained (in the correct format for unicode characters)
+            // Once the byte version of the text is obtained (in the correct format for Unicode characters)
             // we can pass it through as-is to the underlying Windows function.
             // There is a weird top-line flicker happening for some reason.
-            if (!WriteConsole(_consoleHandle, bufferBytes, _buffer.Length, out writtenChars, IntPtr.Zero))
+            if (!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0, 0), out writtenChars))
             {
                 var error = Marshal.GetLastWin32Error();
             }
