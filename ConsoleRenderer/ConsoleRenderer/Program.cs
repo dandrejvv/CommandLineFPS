@@ -1,5 +1,7 @@
 ﻿using ConsoleRenderer.ConsoleScreens;
+using ConsoleRenderer.InputDevices;
 using System;
+using System.Runtime.InteropServices;
 
 namespace ConsoleRenderer
 {
@@ -8,8 +10,22 @@ namespace ConsoleRenderer
         static void Main(string[] args)
         {
             // Biggest size is (180, 60)
-            //var screen = new NativeWindowsScreen(120, 40);
-            var screen = new DefaultScreen(120, 40);
+            const int CONSOLE_WIDTH = 120;
+            const int CONSOLE_HEIGHT = 40;
+
+            IConsoleScreen screen;
+            IKeyboard keyboard;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                screen = new NativeWindowsScreen(CONSOLE_WIDTH, CONSOLE_HEIGHT);
+                keyboard = new WindowsKeyboard();
+            }
+            else
+            {
+                screen = new DefaultScreen(CONSOLE_WIDTH, CONSOLE_HEIGHT);
+                keyboard = new DefaultKeyboard();
+            }
+            
             var charMap = new CharMap("Map1.txt");
             var camera = new Camera(charMap);
             var mapRenderer = new MapRenderer(screen, camera, charMap);
@@ -21,23 +37,22 @@ namespace ConsoleRenderer
             {
                 frameTimer.Update();
 
-                if (Console.KeyAvailable)
+                if (keyboard.HasKeyPressed())
                 {
-                    var pressedKey = Console.ReadKey(true);
-                    if (pressedKey.Key == ConsoleKey.W)
+                    if (keyboard.IsKeyPressed(ConsoleKey.W))
                     {
                         camera.MoveForward(Speed, frameTimer.FrameTime);
                     }
-                    else if (pressedKey.Key == ConsoleKey.S)
+                    else if (keyboard.IsKeyPressed(ConsoleKey.S))
                     {
                         camera.MoveBackward(Speed, frameTimer.FrameTime);
                     }
 
-                    if (pressedKey.Key == ConsoleKey.LeftArrow)
+                    if (keyboard.IsKeyPressed(ConsoleKey.LeftArrow))
                     {
                         camera.TurnLeft(Speed, frameTimer.FrameTime);
                     }
-                    else if (pressedKey.Key == ConsoleKey.RightArrow)
+                    else if (keyboard.IsKeyPressed(ConsoleKey.RightArrow))
                     {
                         camera.TurnRight(Speed, frameTimer.FrameTime);
                     }
