@@ -38,4 +38,8 @@ to leverage `Encoding.GetBytes()` as well. I even got as much as 500fps at some 
 
 ![Screenshot](Screenshot3.png)
 
+# 2019/03/22 - Entry Two
+Now it is using OS detection to determine to use the native Windows Console and keyboard code to have a better experience.
+Any other OS will have the default implementations that may not be so satisfactory (since I haven't targeted anything else at the moment).
+
 https://github.com/OneLoneCoder/videos/blob/master/LICENSE
