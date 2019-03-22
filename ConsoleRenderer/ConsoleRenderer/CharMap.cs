@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ConsoleRenderer.ConsoleScreens;
+using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ConsoleRenderer
@@ -23,6 +25,7 @@ namespace ConsoleRenderer
         public int Height { get { return _height; } private set { _height = value; } }
         public PositionInt2D PlayerStartingPosition { get; private set; }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public char GetAtPos(int posX, int posY)
         {
             return _map[posY * _width + posX];
@@ -32,10 +35,9 @@ namespace ConsoleRenderer
         {
             for (var row = 0; row < _height; row++)
             {
-                var line = new String(_map, row * _width, Width);
-                screen.Draw(posX, posY + row, line);
+                screen.Draw(posX, posY + row, _map, row * _width, _width);
             }
-            screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY + 1, 'P');
+            screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY + 1, 'C');
         }
 
         private void LoadMap(string mapFilePath)
@@ -60,13 +62,13 @@ namespace ConsoleRenderer
                     throw new Exception($"Line {i+1}'s width in map file differs from previous line");
                 }
                 int playerLinePos;
-                if ((playerLinePos = lines[i].IndexOf('P')) > 0)
+                if ((playerLinePos = lines[i].IndexOf('C')) > 0)
                 {
                     if (PlayerStartingPosition.PosX != 0 || PlayerStartingPosition.PosY != 0)
                     {
-                        throw new Exception("There can only be one player starting position on the map");
+                        throw new Exception("There can only be one camera starting position on the map");
                     }
-                    lines[i] = lines[i].Replace('P', '.');
+                    lines[i] = lines[i].Replace('C', '.');
                     PlayerStartingPosition = new PositionInt2D(playerLinePos, i);
                 }
                 sb.Append(lines[i]);

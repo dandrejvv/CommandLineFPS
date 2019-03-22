@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace ConsoleRenderer
+namespace ConsoleRenderer.ConsoleScreens
 {
     public class NativeWindowsScreen : IScreen
     {
@@ -65,6 +65,11 @@ namespace ConsoleRenderer
         public void Draw(int x, int y, char character)
         {
             _buffer[y * _screenWidth + x] = character;
+        }
+
+        public void Draw(int x, int y, char[] chars, int offset, int length)
+        {
+            Array.Copy(chars, offset, _buffer, y * _screenWidth + x, length);
         }
 
         public void Draw(int x, int y, string text)
