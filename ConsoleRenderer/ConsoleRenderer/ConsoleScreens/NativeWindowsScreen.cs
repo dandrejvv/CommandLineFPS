@@ -29,8 +29,8 @@ namespace ConsoleRenderer.ConsoleScreens
             internal short Y;
         }
 
-        private byte[] _buffer;
-        private byte[] _emptyBuffer;
+        private char[] _buffer;
+        private char[] _emptyBuffer;
         private int _screenWidth;
         private int _screenHeight;
         private readonly IntPtr _consoleHandle;
@@ -39,8 +39,8 @@ namespace ConsoleRenderer.ConsoleScreens
         {
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
-            _buffer = new byte[ScreenWidth * ScreenHeight];
-            _emptyBuffer = new byte[ScreenWidth * ScreenHeight];
+            _buffer = new char[ScreenWidth * ScreenHeight];
+            _emptyBuffer = new char[ScreenWidth * ScreenHeight];
 
             Console.CursorVisible = false;
             Console.SetWindowSize(ScreenWidth, ScreenHeight + 1);
@@ -64,50 +64,29 @@ namespace ConsoleRenderer.ConsoleScreens
 
         public void Draw(int x, int y, char character)
         {
-            switch (character)
-            {
-                default:
-                    _buffer[y * _screenWidth + x] = (byte)character;
-                    break;
-                case (char)0x2588:
-                    _buffer[y * _screenWidth + x] = 219;
-                    break;
-                case (char)0x2593:
-                    _buffer[y * _screenWidth + x] = 178;
-                    break;
-                case (char)0x2592:
-                    _buffer[y * _screenWidth + x] = 177;
-                    break;
-                case (char)0x2591:
-                    _buffer[y * _screenWidth + x] = 176;
-                    break;
-            }
+            _buffer[y * _screenWidth + x] = character;
         }
 
         public void Draw(int x, int y, char[] chars, int offset, int length)
         {
-            for (int i = 0; i < length; i ++)
-            {
-                _buffer[y * _screenWidth + x + i] = (byte)chars[i + offset];
-            }
+            Array.Copy(chars, offset, _buffer, y * _screenWidth + x, length);
         }
 
         public void Draw(int x, int y, string text)
         {
-            for (int i = 0; i < text.Length; i++)
-            {
-                _buffer[y * _screenWidth + x + i] = (byte)text[i];
-            }
+            text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);
         }
 
         public void RenderToConsole()
         {
             int writtenChars = 0;
 
+            var correctBytes = Console.OutputEncoding.GetBytes(_buffer);
+
             // Once the byte version of the text is obtained (in the correct format for Unicode characters)
             // we can pass it through as-is to the underlying Windows function.
             // There is a weird top-line flicker happening for some reason.
-            if (!WriteConsoleOutputCharacter(_consoleHandle, _buffer, _buffer.Length, new COORD(0, 0), out writtenChars))
+            if (!WriteConsoleOutputCharacter(_consoleHandle, correctBytes, _buffer.Length, new COORD(0, 0), out writtenChars))
             {
                 var error = Marshal.GetLastWin32Error();
             }
