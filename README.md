@@ -20,6 +20,8 @@ This was an interesting experiment and something I quite enjoyed persuing, espec
 routine. I felt almost like I was a university or high school student again. So big thanks to OneLoneCoder for the idea!
 Maybe I might tinker on it some more but I can't promise anything.
 
+![Screenshot](Screenshot.png)
+
 # 2019/03/22 - Entry One
 I think I have finally beat the system 😁. So instead of doing the normal `Encoding.GetBytes()` call, I've changed my Native Windows
 Console to use a byte array under the hood and where I've picked up that a character that is unicode gets written (that looks like my wall)
@@ -27,13 +29,13 @@ I've secretly been changing it to the correct byte code. Also, I reverted to usi
 which is writing much faster to the console than the previous `WriteConsole` one (plus the flickering stopped). Now I can achieve over 300 fps
 at certain times.
 
-![Screenshot](Screenshot.png)
+![Screenshot](Screenshot2.png)
 
 # 2019/03/22 - Entry Two
 Whoah! I reverted my workaround for the "proper" way of doing things. It turns out that `WriteConsole` was the culprint all along.
 It renders very slowly in .NET and even when I tried it myself. `WriteConsoleOutputCharacter` renders much faster and I was able
 to leverage `Encoding.GetBytes()` as well. I even got as much as 500fps at some point!
 
-![Screenshot](Screenshot2.png)
+![Screenshot](Screenshot3.png)
 
 https://github.com/OneLoneCoder/videos/blob/master/LICENSE
