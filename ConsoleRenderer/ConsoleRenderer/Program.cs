@@ -25,7 +25,7 @@ namespace ConsoleRenderer
                 screen = new DefaultScreen(CONSOLE_WIDTH, CONSOLE_HEIGHT);
                 keyboard = new DefaultKeyboard();
             }
-            
+
             var charMap = new CharMap("Map1.txt");
             var camera = new Camera(charMap);
             var mapRenderer = new MapRenderer(screen, camera, charMap);

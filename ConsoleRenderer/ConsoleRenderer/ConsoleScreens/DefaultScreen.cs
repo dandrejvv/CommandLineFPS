@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace ConsoleRenderer.ConsoleScreens
 {
@@ -23,16 +24,19 @@ namespace ConsoleRenderer.ConsoleScreens
         public int ScreenWidth { get { return _screenWidth; } private set { _screenWidth = value; } }
         public int ScreenHeight { get { return _screenHeight; } private set { _screenHeight = value; } }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(int x, int y, char character)
         {
             _buffer[y * _screenWidth + x] = character;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(int x, int y, char[] chars, int offset, int length)
         {
             Array.Copy(chars, offset, _buffer, y * _screenWidth + x, length);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(int x, int y, string text)
         {
             text.CopyTo(0, _buffer, y * _screenWidth + x, text.Length);

@@ -31,6 +31,7 @@ namespace ConsoleRenderer
             return _map[posY * _width + posX];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawMap(IConsoleScreen screen, int posX, int posY, PositionInt2D currentPlayerPosition)
         {
             for (var row = 0; row < _height; row++)
