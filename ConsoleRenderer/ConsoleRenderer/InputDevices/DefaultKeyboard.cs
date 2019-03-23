@@ -6,12 +6,26 @@ namespace ConsoleRenderer.InputDevices
     {
         public bool HasKeyPressed()
         {
+            _consoleKeyPressed = null;
             return Console.KeyAvailable;
+        }
+
+        private ConsoleKey? _consoleKeyPressed;
+        private ConsoleKey ConsoleKeyPressed
+        {
+            get
+            {
+                if (_consoleKeyPressed == null)
+                {
+                    _consoleKeyPressed = Console.ReadKey(true).Key;
+                }
+                return _consoleKeyPressed.Value;
+            }
         }
 
         public bool IsKeyPressed(ConsoleKey expectedKey)
         {
-            return Console.ReadKey().Key == expectedKey;
+            return ConsoleKeyPressed == expectedKey;
         }
     }
 }
