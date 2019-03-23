@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -261,9 +261,10 @@ namespace ConsoleRenderer.ConsoleScreens
             return true;
         }
 
-        // I'm cheating a little bit. Instead of creating my own handle of the console and trying to setup all the various
-        // bells and whistles, I'm using the normal .NET Core version of the Windows implementation and fetching the handle
-        // from there.
+        // I'm leveraging the existing .NET Core Console Handle since I don't know what it would entail to
+        // create my own handle while one is already running. Hopefully I won't have to change this anytime soon.
+        // I have tried to fetch this in other ways but no luck there. This seems to be the only way.
+        // I'm so glad this is just for an experiment and not for production apps otherwise I would be hating myself now! :-D
         private IntPtr GetConsoleHandle()
         {
             var consoleType = typeof(Console);
