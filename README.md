@@ -14,14 +14,14 @@ I have not been in a position (or will power) to look at something like Linux, e
 I was dissapointed that adding a `Parrallel.For` on the `MapRender` didn't make any difference to the render speed since that
 is supposed to be an ideal scenario for multithreading performance gains!
 
-![Screenshot](Screenshots\Screenshot5.png)
+![Screenshot](Screenshots/Screenshot5.png)
 
 # 2019/03/23 - Part One
 Fixed a couple of keyboard issues. Now it runs as smoothly as the C++ counterpart. I ran the C++ version on my machine and noticed that even
 on a release build my version runs just as fast in terms of FPS. Also realized that my maze rendering was wrong and fixed it to match up with
 the map view. Seems like the map and rendering coordinates need to be flipped for some reason.
 
-![Screenshot](Screenshots\Screenshot4.png)
+![Screenshot](Screenshots/Screenshot4.png)
 
 # 2019/03/22 - Entry Three
 Now it is using OS detection to determine to use the native Windows Console and keyboard code to have a better experience.
@@ -32,7 +32,7 @@ Whoah! I reverted my workaround for the "proper" way of doing things. It turns o
 It renders very slowly in .NET and even when I tried it myself. `WriteConsoleOutputCharacter` renders much faster and I was able
 to leverage `Encoding.GetBytes()` as well. I even got as much as 500fps at some point!
 
-![Screenshot](Screenshots\Screenshot3.png)
+![Screenshot](Screenshots/Screenshot3.png)
 
 # 2019/03/22 - Entry One
 I think I have finally beat the system 😁. So instead of doing the normal `Encoding.GetBytes()` call, I've changed my Native Windows
@@ -41,7 +41,7 @@ I've secretly been changing it to the correct byte code. Also, I reverted to usi
 which is writing much faster to the console than the previous `WriteConsole` one (plus the flickering stopped). Now I can achieve over 300 fps
 at certain times.
 
-![Screenshot](Screenshots\Screenshot2.png)
+![Screenshot](Screenshots/Screenshot2.png)
 
 # 2019/03/21
 I was very happy when I got to the point where I saw my maze being rendered, but the framerate was quite low
@@ -61,7 +61,7 @@ This was an interesting experiment and something I quite enjoyed persuing, espec
 routine. I felt almost like I was a university or high school student again. So big thanks to OneLoneCoder for the idea!
 Maybe I might tinker on it some more but I can't promise anything.
 
-![Screenshot](Screenshots\Screenshot.png)
+![Screenshot](Screenshots/Screenshot.png)
 
 
 
