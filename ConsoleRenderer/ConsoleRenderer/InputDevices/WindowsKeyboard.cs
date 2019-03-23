@@ -32,8 +32,6 @@ namespace ConsoleRenderer.InputDevices
 
         public bool HasKeyPressed()
         {
-            bool keyPressed = false;
-
             for (int i = 0; i < 256; i++)
             {
                 _keyNewState[i] = GetAsyncKeyState(i);
@@ -43,17 +41,10 @@ namespace ConsoleRenderer.InputDevices
 
                 if (_keyNewState[i] != _keyOldState[i])
                 {
-                    if (_keyNewState[i] == 1)
+                    if ((_keyNewState[i] & Int16.MinValue) != 0)
                     {
-                        _keyCurrentState[i].Pressed = true;
-                        _keyCurrentState[i].Held = false;
-                        keyPressed = true;
-                    }
-                    else if ((_keyNewState[i] & Int16.MinValue) != 0)
-                    {
-                        _keyCurrentState[i].Pressed = false;
+                        _keyCurrentState[i].Pressed = !_keyCurrentState[i].Held;
                         _keyCurrentState[i].Held = true;
-                        keyPressed = true;
                     }
                     else
                     {
@@ -65,7 +56,7 @@ namespace ConsoleRenderer.InputDevices
                 _keyOldState[i] = _keyNewState[i];
             }
 
-            return keyPressed;
+            return true;
         }
 
         public bool IsKeyPressed(ConsoleKey expectedKey)
