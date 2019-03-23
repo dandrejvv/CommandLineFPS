@@ -13,6 +13,7 @@ I have disabled other OS support at this point as most of the enhancements are s
 I have not been in a position (or will power) to look at something like Linux, etc. Though, I'm sure it is entirely possible.
 I was dissapointed that adding a `Parrallel.For` on the `MapRender` didn't make any difference to the render speed since that
 is supposed to be an ideal scenario for multithreading performance gains!
+However, I am so glad I didn't give up in the beginning as I would have missed out on all of this.
 
 ![Screenshot](Screenshots/Screenshot5.png)
 
