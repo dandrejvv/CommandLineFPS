@@ -69,8 +69,9 @@ namespace ConsoleRenderer
 
                 mapRenderer.Draw();
 
-                charMap.DrawMap(screen, 1, 1, new PositionInt2D(camera.GetCameraPosition().PosY, camera.GetCameraPosition().PosX));
-                screen.Draw(1, 17, $"FPS: {frameTimer.Fps.ToString("0.00")}");
+                charMap.DrawMap(screen, 1, 3, new PositionInt2D(camera.GetCameraPosition().PosY, camera.GetCameraPosition().PosX));
+                screen.Draw(1, 1, $"FPS: {frameTimer.Fps.ToString("0.00")}");
+                screen.Draw(1, 2, $"X: {camera.CameraX.ToString("0.00")} Y: {camera.CameraY.ToString("0.00")} A: {camera.CameraAngle.ToString("0.00")}");
                 screen.RenderToConsole();
             }
         }
