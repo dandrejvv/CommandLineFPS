@@ -48,6 +48,28 @@ namespace ConsoleRenderer
             }
         }
 
+        public void StrafeLeft(float amount, float frameElapsed)
+        {
+            var testX = CameraX - MathF.Cos(CameraAngle) * amount * frameElapsed;
+            var testY = CameraY + MathF.Sin(CameraAngle) * amount * frameElapsed;
+            if (_charMap.GetAtPos((int)testY, (int)testX) != '#')
+            {
+                CameraX = testX;
+                CameraY = testY;
+            }
+        }
+
+        public void StrafeRight(float amount, float frameElapsed)
+        {
+            var testX = CameraX + MathF.Cos(CameraAngle) * amount * frameElapsed;
+            var testY = CameraY - MathF.Sin(CameraAngle) * amount * frameElapsed;
+            if (_charMap.GetAtPos((int)testY, (int)testX) != '#')
+            {
+                CameraX = testX;
+                CameraY = testY;
+            }
+        }
+
         public void TurnLeft(float amount, float frameElapsed)
         {
             CameraAngle -= (amount * 0.75f) * frameElapsed;

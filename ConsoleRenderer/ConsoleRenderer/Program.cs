@@ -48,6 +48,15 @@ namespace ConsoleRenderer
                         camera.MoveBackward(Speed, frameTimer.FrameTime);
                     }
 
+                    if (keyboard.IsKeyPressed(ConsoleKey.A))
+                    {
+                        camera.StrafeLeft(Speed, frameTimer.FrameTime);
+                    }
+                    else if (keyboard.IsKeyPressed(ConsoleKey.D))
+                    {
+                        camera.StrafeRight(Speed, frameTimer.FrameTime);
+                    }
+
                     if (keyboard.IsKeyPressed(ConsoleKey.LeftArrow))
                     {
                         camera.TurnLeft(Speed, frameTimer.FrameTime);
