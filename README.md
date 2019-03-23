@@ -42,4 +42,11 @@ to leverage `Encoding.GetBytes()` as well. I even got as much as 500fps at some 
 Now it is using OS detection to determine to use the native Windows Console and keyboard code to have a better experience.
 Any other OS will have the default implementations that may not be so satisfactory (since I haven't targeted anything else at the moment).
 
+# 2019/03/23
+Fixed a couple of keyboard issues. Now it runs as smoothly as the C++ counterpart. I ran the C++ version on my machine and noticed that even
+on a release build my version runs just as fast in terms of FPS. Also realized that my maze rendering was wrong and fixed it to match up with
+the map view. Seems like the map and rendering coordinates need to be flipped for some reason.
+
+![Screenshot](Screenshot4.png)
+
 https://github.com/OneLoneCoder/videos/blob/master/LICENSE
