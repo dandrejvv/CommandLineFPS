@@ -65,6 +65,11 @@ namespace ConsoleRenderer
                     {
                         camera.TurnRight(Speed, frameTimer.FrameTime);
                     }
+
+                    if (keyboard.IsKeyPressed(ConsoleKey.Escape))
+                    {
+                        break;
+                    }
                 }
 
                 mapRenderer.Draw();
