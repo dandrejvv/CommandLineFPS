@@ -60,7 +60,7 @@ namespace ConsoleRenderer
 
                 mapRenderer.Draw();
 
-                charMap.DrawMap(screen, 1, 1, camera.GetCameraPosition());
+                charMap.DrawMap(screen, 1, 1, new PositionInt2D(camera.GetCameraPosition().PosY, camera.GetCameraPosition().PosX));
                 screen.Draw(1, 17, $"FPS: {frameTimer.Fps.ToString("0.00")}");
                 screen.RenderToConsole();
             }

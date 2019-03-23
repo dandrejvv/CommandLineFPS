@@ -13,8 +13,8 @@ namespace ConsoleRenderer
         public Camera(CharMap charMap)
         {
             _charMap = charMap;
-            CameraX = _charMap.PlayerStartingPosition.PosX;
-            CameraY = _charMap.PlayerStartingPosition.PosY;
+            CameraX = _charMap.CameraStartingPosition.PosY + 0.5f;
+            CameraY = _charMap.CameraStartingPosition.PosX + 0.5f;
         }
 
         public float CameraX { get => _cameraX; private set => _cameraX = value; }
@@ -30,7 +30,7 @@ namespace ConsoleRenderer
         {
             var testX = CameraX + MathF.Sin(CameraAngle) * amount * frameElapsed;
             var testY = CameraY + MathF.Cos(CameraAngle) * amount * frameElapsed;
-            if (_charMap.GetAtPos((int)testX, (int)testY) != '#')
+            if (_charMap.GetAtPos((int)testY, (int)testX) != '#')
             {
                 CameraX = testX;
                 CameraY = testY;
@@ -41,7 +41,7 @@ namespace ConsoleRenderer
         {
             var testX = CameraX - MathF.Sin(CameraAngle) * amount * frameElapsed;
             var testY = CameraY - MathF.Cos(CameraAngle) * amount * frameElapsed;
-            if (_charMap.GetAtPos((int)testX, (int)testY) != '#')
+            if (_charMap.GetAtPos((int)testY, (int)testX) != '#')
             {
                 CameraX = testX;
                 CameraY = testY;

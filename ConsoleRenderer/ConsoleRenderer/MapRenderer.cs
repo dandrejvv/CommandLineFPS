@@ -7,7 +7,6 @@ namespace ConsoleRenderer
     public class MapRenderer
     {
         const float Default_FOV = MathF.PI / 4.0f;
-        const float Half_Default_FOV = Default_FOV / 2.0f;
         const float Default_Depth = 16.0f;
 
         private readonly IConsoleScreen _screen;
@@ -37,7 +36,7 @@ namespace ConsoleRenderer
 
             for (var x = 0; x < screenWidthInt; x++)
             {
-                float rayAngle = (cameraAngle - Half_Default_FOV) + (x / screenWidthFloat) * Default_FOV;
+                float rayAngle = (cameraAngle - Default_FOV / 2.0f) + (x / screenWidthFloat) * Default_FOV;
                 float distanceToWall = 0.0f;
 
                 bool hitWall = false;
@@ -57,7 +56,7 @@ namespace ConsoleRenderer
                         hitWall = true;
                         distanceToWall = Default_Depth;
                     }
-                    else if (_charMap.GetAtPos(testX, testY) == '#')
+                    else if (_charMap.GetAtPos(testY, testX) == '#')
                     {
                         hitWall = true;
 
@@ -84,16 +83,16 @@ namespace ConsoleRenderer
                     }
                 }
 
-                int nCeiling = (int)((screenHeightFloat * 0.5f) - screenHeightFloat / distanceToWall);
+                int nCeiling = (int)((screenHeightFloat / 2.0f) - screenHeightFloat / distanceToWall);
                 int nFloor = screenHeightInt - nCeiling;
 
                 char shadeChar = ' ';
                 if (hitWall)
                 {
-                    if (distanceToWall <= Default_Depth / 4.0f) shadeChar = (char)0x2588;
+                    if (distanceToWall <= Default_Depth / 4.0f)     shadeChar = (char)0x2588;
                     else if (distanceToWall < Default_Depth / 3.0f) shadeChar = (char)0x2593;
                     else if (distanceToWall < Default_Depth / 2.0f) shadeChar = (char)0x2592;
-                    else if (distanceToWall < Default_Depth) shadeChar = (char)0x2591;
+                    else if (distanceToWall < Default_Depth)        shadeChar = (char)0x2591;
 
                     if (boundary) shadeChar = ' ';
                 }
@@ -110,12 +109,12 @@ namespace ConsoleRenderer
                     }
                     else
                     {
-                        float b = 1.0f - ((y - (screenHeightFloat * 0.5f)) / (screenHeightFloat * 0.5f));
-                        if (b < 0.25f) shadeChar = '#';
-                        else if (b < 0.5f) shadeChar = 'x';
+                        float b = 1.0f - ((y - (screenHeightFloat / 2.0f)) / (screenHeightFloat / 2.0f));
+                        if (b < 0.25f)      shadeChar = '#';
+                        else if (b < 0.5f)  shadeChar = 'x';
                         else if (b < 0.75f) shadeChar = '.';
-                        else if (b < 0.9f) shadeChar = '-';
-                        else shadeChar = ' ';
+                        else if (b < 0.9f)  shadeChar = '-';
+                        else                shadeChar = ' ';
 
                         _screen.Draw(x, y, shadeChar);
                     }

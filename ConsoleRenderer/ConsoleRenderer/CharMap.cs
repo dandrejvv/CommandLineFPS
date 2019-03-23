@@ -23,7 +23,7 @@ namespace ConsoleRenderer
         public string MapFilePath { get; }
         public int Width { get { return _width; } private set { _width = value; } }
         public int Height { get { return _height; } private set { _height = value; } }
-        public PositionInt2D PlayerStartingPosition { get; private set; }
+        public PositionInt2D CameraStartingPosition { get; private set; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public char GetAtPos(int posX, int posY)
@@ -38,7 +38,7 @@ namespace ConsoleRenderer
             {
                 screen.Draw(posX, posY + row, _map, row * _width, _width);
             }
-            screen.Draw(currentPlayerPosition.PosX, currentPlayerPosition.PosY + 1, 'C');
+            screen.Draw(currentPlayerPosition.PosX + 1, currentPlayerPosition.PosY + 1, 'C');
         }
 
         private void LoadMap(string mapFilePath)
@@ -65,12 +65,12 @@ namespace ConsoleRenderer
                 int playerLinePos;
                 if ((playerLinePos = lines[i].IndexOf('C')) > 0)
                 {
-                    if (PlayerStartingPosition.PosX != 0 || PlayerStartingPosition.PosY != 0)
+                    if (CameraStartingPosition.PosX != 0 || CameraStartingPosition.PosY != 0)
                     {
                         throw new Exception("There can only be one camera starting position on the map");
                     }
                     lines[i] = lines[i].Replace('C', '.');
-                    PlayerStartingPosition = new PositionInt2D(playerLinePos, i);
+                    CameraStartingPosition = new PositionInt2D(playerLinePos, i);
                 }
                 sb.Append(lines[i]);
             }
