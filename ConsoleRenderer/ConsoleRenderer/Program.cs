@@ -9,9 +9,8 @@ namespace ConsoleRenderer
     {
         static void Main(string[] args)
         {
-            // Biggest size is (180, 60)
-            const int CONSOLE_WIDTH = 120;
-            const int CONSOLE_HEIGHT = 40;
+            const int CONSOLE_WIDTH = 240;
+            const int CONSOLE_HEIGHT = 120;
 
             IConsoleScreen screen;
             IKeyboard keyboard;
@@ -22,6 +21,8 @@ namespace ConsoleRenderer
             }
             else
             {
+                throw new NotSupportedException("This is going to become a limitation soon");
+                // Biggest size is (180, 60)
                 screen = new DefaultScreen(CONSOLE_WIDTH, CONSOLE_HEIGHT);
                 keyboard = new DefaultKeyboard();
             }
@@ -75,8 +76,9 @@ namespace ConsoleRenderer
                 mapRenderer.Draw();
 
                 charMap.DrawMap(screen, 1, 3, new PositionInt2D(camera.GetCameraPosition().PosY, camera.GetCameraPosition().PosX));
-                screen.Draw(1, 1, $"FPS: {frameTimer.Fps.ToString("0.00")}");
-                screen.Draw(1, 2, $"X: {camera.CameraX.ToString("0.00")} Y: {camera.CameraY.ToString("0.00")} A: {camera.CameraAngle.ToString("0.00")}");
+                Console.Title = $"Console Render - {frameTimer.Fps.ToString("0.00")} fps";
+                //screen.Draw(1, 1, $"FPS: {frameTimer.Fps.ToString("0.00")}");
+                //screen.Draw(1, 2, $"X: {camera.CameraX.ToString("0.00")} Y: {camera.CameraY.ToString("0.00")} A: {camera.CameraAngle.ToString("0.00")}");
                 screen.RenderToConsole();
             }
         }
