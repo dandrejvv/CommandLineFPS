@@ -5,6 +5,8 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 It started off as a curious experiment to see what it would be like to get it to work on .NET Core.
 
+![Screencast](Screenshots/MaizeRunner.gif)
+
 # 2019/03/23 - Part Two
 I have finally gotten to the point where I can upgrade the resolution. I took the logic from the second version of the CommandLineFPS
 sample by OneLoneCoder to assist me with the Win32API Console interface.
